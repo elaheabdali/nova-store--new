@@ -120,6 +120,6 @@ src/proxy.ts                    # locale routing در Next.js 16
 این پوشه یک Git repository مستقل با تاریخچه commitهای مرحله‌ای است. برای انتشار در سرویس Git میزبان، remote مخزن خودتان را اضافه کنید:
 
 ```bash
-git remote add origin <YOUR_REPOSITORY_URL>
+git remote add origin https://github.com/elaheabdali/nova-store--new.git
 git push -u origin main
 ```

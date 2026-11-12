@@ -9,7 +9,8 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error: AxiosError<{ message?: string }>) => {
-    const message = error.response?.data?.message || error.message || 'Request failed';
+    const message =
+      error.response?.data?.message || error.message || 'Request failed';
     return Promise.reject(new Error(message));
   },
 );

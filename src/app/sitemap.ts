@@ -1,7 +1,8 @@
 import type { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nova-store.example';
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://nova-store.example';
   const now = new Date();
   return ['fa', 'en'].map((locale) => ({
     url: `${baseUrl}/${locale}`,
