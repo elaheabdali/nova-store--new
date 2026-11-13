@@ -128,10 +128,6 @@ export function Hero() {
       <div className="container">
         <Surface>
           <Copy>
-            <div className="eyebrow">
-              <Sparkles size={14} />
-              {t('eyebrow')}
-            </div>
             <h1>{t('title')}</h1>
             <p>{t('description')}</p>
             <a href="#products">
@@ -144,7 +140,6 @@ export function Hero() {
                 )}
               </Button>
             </a>
-            <div className="note">✦ {t('note')}</div>
           </Copy>
           <Visual aria-hidden="true">
             <div className="halo" />
