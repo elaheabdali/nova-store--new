@@ -23,7 +23,15 @@ function prettyCategory(value: string) {
   return value.replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
-export function ProductGrid({ searchValue }: { searchValue: string }) {
+export function ProductGrid({
+  searchValue,
+  initialProducts,
+  initialCategories,
+}: {
+  searchValue: string;
+  initialProducts: Product[];
+  initialCategories: string[];
+}) {
   const t = useTranslations('catalog');
   const locale = useLocale();
   const addItem = useCartStore((state) => state.addItem);
@@ -43,7 +51,7 @@ export function ProductGrid({ searchValue }: { searchValue: string }) {
     visibleProducts,
     filteredCount,
     loadProducts,
-  } = useProductCatalog(searchValue);
+  } = useProductCatalog(searchValue, initialProducts, initialCategories);
 
   const handleAdd = (product: Product) => {
     addItem(product);

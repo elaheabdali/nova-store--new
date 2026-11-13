@@ -3,10 +3,14 @@ import type { Product } from '@/types';
 import { ProductSort } from '@/types/enums/ProductSort';
 import { productRequests } from '@/requests/productRequests';
 
-export function useProductCatalog(searchValue: string) {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+export function useProductCatalog(
+  searchValue: string, 
+  initialProducts: Product[] = [], 
+  initialCategories: string[] = []
+) {
+  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [categories, setCategories] = useState<string[]>(initialCategories);
+  const [loading, setLoading] = useState(initialProducts.length === 0);
   const [error, setError] = useState(false);
   const [category, setCategory] = useState('all');
   const [sort, setSort] = useState<ProductSort>(ProductSort.Featured);
@@ -32,7 +36,9 @@ export function useProductCatalog(searchValue: string) {
   };
 
   useEffect(() => {
-    void loadProducts();
+    if (products.length === 0) {
+      void loadProducts();
+    }
   }, []);
 
   const filtered = useMemo(() => {
@@ -76,18 +82,7 @@ export function useProductCatalog(searchValue: string) {
   }, [page, pageCount]);
 
   return {
-    categories,
-    loading,
-    error,
-    category,
-    setCategory,
-    sort,
-    setSort,
-    page,
-    setPage,
-    pageCount,
-    visibleProducts,
-    filteredCount: filtered.length,
-    loadProducts,
+    categories, loading, error, category, setCategory, sort, setSort,
+    page, setPage, pageCount, visibleProducts, filteredCount: filtered.length, loadProducts,
   };
 }
