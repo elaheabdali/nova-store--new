@@ -4,9 +4,9 @@ import { ProductSort } from '@/types/enums/ProductSort';
 import { productRequests } from '@/requests/productRequests';
 
 export function useProductCatalog(
-  searchValue: string, 
-  initialProducts: Product[] = [], 
-  initialCategories: string[] = []
+  searchValue: string,
+  initialProducts: Product[] = [],
+  initialCategories: string[] = [],
 ) {
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [categories, setCategories] = useState<string[]>(initialCategories);
@@ -71,7 +71,10 @@ export function useProductCatalog(
   }, [products, category, searchValue, sort]);
 
   const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
-  const visibleProducts = filtered.slice((page - 1) * pageSize, page * pageSize);
+  const visibleProducts = filtered.slice(
+    (page - 1) * pageSize,
+    page * pageSize,
+  );
 
   useEffect(() => {
     setPage(1);
@@ -82,7 +85,18 @@ export function useProductCatalog(
   }, [page, pageCount]);
 
   return {
-    categories, loading, error, category, setCategory, sort, setSort,
-    page, setPage, pageCount, visibleProducts, filteredCount: filtered.length, loadProducts,
+    categories,
+    loading,
+    error,
+    category,
+    setCategory,
+    sort,
+    setSort,
+    page,
+    setPage,
+    pageCount,
+    visibleProducts,
+    filteredCount: filtered.length,
+    loadProducts,
   };
 }

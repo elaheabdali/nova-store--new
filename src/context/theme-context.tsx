@@ -5,9 +5,9 @@ import {
   useContext,
   useEffect,
   useState,
-  ReactNode,
+  type ReactNode,
 } from 'react';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { appThemes } from './themes';
 
 type ThemeMode = 'light' | 'dark';
@@ -16,6 +16,14 @@ interface ThemeContextType {
   mode: ThemeMode;
   toggleTheme: () => void;
 }
+
+const GlobalThemeStyle = createGlobalStyle`
+  html, body {
+    background-color: ${({ theme }) => theme.colors.background};
+    color: ${({ theme }) => theme.colors.text};
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+`;
 
 const ThemeContext = createContext<ThemeContextType>({
   mode: 'light',
@@ -29,12 +37,18 @@ export function ThemeContextProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const savedMode = window.localStorage.getItem(
       'nova_store_theme',
-    ) as ThemeMode;
-    if (savedMode) {
+    ) as ThemeMode | null;
+    if (savedMode === 'light' || savedMode === 'dark') {
       setMode(savedMode);
     }
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = mode;
+    document.documentElement.classList.toggle('dark', mode === 'dark');
+    document.documentElement.style.colorScheme = mode;
+  }, [mode]);
 
   const toggleTheme = () => {
     setMode((prev) => {
@@ -50,7 +64,10 @@ export function ThemeContextProvider({ children }: { children: ReactNode }) {
 
   return (
     <ThemeContext.Provider value={{ mode, toggleTheme }}>
-      <ThemeProvider theme={appThemes[mode]}>{children}</ThemeProvider>
+      <ThemeProvider theme={appThemes[mode]}>
+        <GlobalThemeStyle />
+        {children}
+      </ThemeProvider>
     </ThemeContext.Provider>
   );
 }

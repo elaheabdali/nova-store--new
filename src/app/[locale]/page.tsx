@@ -11,16 +11,18 @@ export default async function HomePage() {
     try {
       initialCategories = await productRequests.getCategories();
     } catch {
-      initialCategories = Array.from(new Set(initialProducts.map(p => p.category)));
+      initialCategories = Array.from(
+        new Set(initialProducts.map((p) => p.category)),
+      );
     }
   } catch (error) {
-    console.error("SSR Fetch Error:", error);
+    console.error('SSR Fetch Error:', error);
   }
 
   return (
-    <StorefrontExperience 
-      initialProducts={initialProducts} 
-      initialCategories={initialCategories} 
+    <StorefrontExperience
+      initialProducts={initialProducts}
+      initialCategories={initialCategories}
     />
   );
 }
