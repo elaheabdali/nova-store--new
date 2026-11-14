@@ -18,10 +18,7 @@ import { formatPrice } from '@/utils/formatPrice';
 import { Button } from '@/shared/StoreButtons';
 import { useProductCatalog } from '@/hooks/useProductCatalog';
 import * as S from './ProductGrid.styles';
-
-function prettyCategory(value: string) {
-  return value.replace(/\b\w/g, (letter) => letter.toUpperCase());
-}
+import { formatCategory } from '@/utils/formatCategory';
 
 export function ProductGrid({
   searchValue,
@@ -89,7 +86,7 @@ export function ProductGrid({
                 $active={category === item}
                 onClick={() => setCategory(item)}
               >
-                {prettyCategory(item)}
+                {formatCategory(item, locale)}
               </S.CategoryChip>
             ))}
           </S.CategoryRow>
@@ -149,7 +146,7 @@ export function ProductGrid({
               <S.ProductCard key={product.id}>
                 <S.ImageWrap>
                   <S.CategoryTag>
-                    {prettyCategory(product.category)}
+                    {formatCategory(product.category, locale)}
                   </S.CategoryTag>
                   <img src={product.image} alt={product.title} loading="lazy" />
                 </S.ImageWrap>

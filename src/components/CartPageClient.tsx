@@ -22,6 +22,7 @@ import { Header } from './Header';
 import { Footer } from './Footer';
 import { formatPrice } from '@/utils/formatPrice';
 import { Button, SecondaryButton } from '@/shared/StoreButtons';
+import { formatCategory } from '@/utils/formatCategory';
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -364,7 +365,7 @@ export function CartPageClient() {
                       />
                       <ProductInfo>
                         <h3>{item.product.title}</h3>
-                        <p>{item.product.category}</p>
+                        <p>{formatCategory(item.product.category, locale)}</p>
                         <Price>
                           <span>{t('unitPrice')}</span>
                           {formatPrice(item.product.price, locale)}
