@@ -23,80 +23,7 @@ import { Footer } from './Footer';
 import { formatPrice } from '@/utils/formatPrice';
 import { Button, SecondaryButton } from '@/shared/StoreButtons';
 import { formatCategory } from '@/utils/formatCategory';
-
-const ModalOverlay = styled.div`
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  padding: 20px;
-  animation: fadeIn 0.2s ease-out;
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-`;
-
-const ModalBox = styled.div`
-  background: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: 20px;
-  padding: 30px;
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
-  box-shadow: ${({ theme }) => theme.colors.shadow};
-  transform: translateY(0);
-  animation: slideUp 0.3s ease-out;
-  @keyframes slideUp {
-    from {
-      transform: translateY(20px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-  .icon-wrapper {
-    width: 60px;
-    height: 60px;
-    background: ${({ theme }) => theme.colors.orangeSoft};
-    color: ${({ theme }) => theme.colors.orange};
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-  }
-  h3 {
-    color: ${({ theme }) => theme.colors.navy};
-    font-size: 18px;
-    margin: 0 0 10px;
-  }
-  p {
-    color: ${({ theme }) => theme.colors.muted};
-    font-size: 13px;
-    line-height: 1.6;
-    margin: 0 0 25px;
-  }
-  .actions {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    button {
-      flex: 1;
-    }
-  }
-`;
+import { ConfirmModal } from '@/modals/ConfirmModal';
 
 const Main = styled.main`
   padding: 52px 0 80px;
@@ -432,36 +359,23 @@ export function CartPageClient() {
       <Footer />
 
       {showClearConfirm && (
-        <ModalOverlay onClick={() => setShowClearConfirm(false)}>
-          <ModalBox onClick={(e) => e.stopPropagation()}>
-            <div className="icon-wrapper">
-              <AlertTriangle size={28} />
-            </div>
-            <h3>
-              {locale === 'fa' ? 'پاک کردن سبد خرید' : 'Clear Shopping Cart'}
-            </h3>
-            <p>
-              {locale === 'fa'
-                ? 'آیا مطمئن هستید که می‌خواهید تمام آیتم‌های سبد خرید را حذف کنید؟ این عمل غیرقابل بازگشت است.'
-                : 'Are you sure you want to remove all items from your cart? This action cannot be undone.'}
-            </p>
-            <div className="actions">
-              <SecondaryButton onClick={() => setShowClearConfirm(false)}>
-                {locale === 'fa' ? 'انصراف' : 'Cancel'}
-              </SecondaryButton>
-              <Button
-                onClick={() => {
-                  clear();
-                  setShowClearConfirm(false);
-                }}
-                style={{ background: '#d65d57' }}
-              >
-                <Trash2 size={16} />
-                {locale === 'fa' ? 'بله، پاک کن' : 'Yes, clear it'}
-              </Button>
-            </div>
-          </ModalBox>
-        </ModalOverlay>
+        <ConfirmModal
+          isOpen={showClearConfirm}
+          title={locale === 'fa' ? 'پاک کردن سبد خرید' : 'Clear Shopping Cart'}
+          description={
+            locale === 'fa'
+              ? 'آیا مطمئن هستید که می‌خواهید تمام آیتم‌های سبد خرید را حذف کنید؟ این عمل غیرقابل بازگشت است.'
+              : 'Are you sure you want to remove all items from your cart? This action cannot be undone.'
+          }
+          confirmLabel={locale === 'fa' ? 'بله، پاک کن' : 'Yes, clear it'}
+          cancelLabel={locale === 'fa' ? 'انصراف' : 'Cancel'}
+          confirmIcon={<Trash2 size={16} />}
+          onConfirm={() => {
+            clear();
+            setShowClearConfirm(false);
+          }}
+          onCancel={() => setShowClearConfirm(false)}
+        />
       )}
     </>
   );
