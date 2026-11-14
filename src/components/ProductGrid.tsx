@@ -19,6 +19,7 @@ import { Button } from '@/shared/StoreButtons';
 import { useProductCatalog } from '@/hooks/useProductCatalog';
 import * as S from './ProductGrid.styles';
 import { formatCategory } from '@/utils/formatCategory';
+import { Link } from '@/i18n/navigation';
 
 export function ProductGrid({
   searchValue,
@@ -144,16 +145,26 @@ export function ProductGrid({
           <S.Grid>
             {visibleProducts.map((product) => (
               <S.ProductCard key={product.id}>
-                <S.ImageWrap>
-                  <S.CategoryTag>
-                    {formatCategory(product.category, locale)}
-                  </S.CategoryTag>
-                  <img src={product.image} alt={product.title} loading="lazy" />
-                </S.ImageWrap>
+                <Link href={`/products/${product.id}`}>
+                  <S.ImageWrap>
+                    <S.CategoryTag>
+                      {formatCategory(product.category, locale)}
+                    </S.CategoryTag>
+                    <img
+                      src={product.image}
+                      alt={product.title}
+                      loading="lazy"
+                    />
+                  </S.ImageWrap>
+                </Link>
+
                 <S.ProductInfo>
-                  <S.ProductTitle title={product.title}>
-                    {product.title}
-                  </S.ProductTitle>
+                  <Link href={`/products/${product.id}`}>
+                    <S.ProductTitle title={product.title}>
+                      {product.title}
+                    </S.ProductTitle>
+                  </Link>
+
                   <S.Rating>
                     <Star size={13} />
                     <strong>{product.rating?.rate?.toFixed(1) ?? '—'}</strong>
